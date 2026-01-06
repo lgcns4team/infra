@@ -114,6 +114,11 @@ variable "frontend_bucket_name" {
   type        = string
 }
 
+variable "admin_frontend_bucket_name" {
+  description = "전역 유니크한 Admin Frontend S3 버킷명"
+  type        = string
+}
+
 variable "api_subdomain" {
   type    = string
   default = "api"
@@ -127,6 +132,11 @@ variable "jenkins_subdomain" {
 variable "grafana_subdomain" {
   type    = string
   default = "grafana"
+}
+
+variable "admin_subdomain" {
+  type    = string
+  default = "admin"
 }
 
 

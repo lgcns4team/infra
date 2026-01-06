@@ -25,6 +25,18 @@ resource "aws_route53_record" "www_alias_cf" {
   }
 }
 
+resource "aws_route53_record" "admin_alias_cf" {
+  zone_id = data.aws_route53_zone.this.zone_id
+  name    = "${var.admin_subdomain}.${var.root_domain}"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.admin_frontend.domain_name
+    zone_id                = aws_cloudfront_distribution.admin_frontend.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
 ########################
 # Route53 - ALB (api / jenkins / grafana)
 ########################

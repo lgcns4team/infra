@@ -7,8 +7,9 @@ variable "app_env_secret_name" {
 locals {
   db_host = aws_db_instance.mariadb.address
   db_port = aws_db_instance.mariadb.port
-  
-  jdbc_url = "jdbc:mariadb://${local.db_host}:${local.db_port}/${var.db_name}?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC"
+
+  # jdbc_url = "jdbc:mariadb://${local.db_host}:${local.db_port}/${var.db_name}?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC"
+  jdbc_url = "jdbc:mariadb://${local.db_host}:${local.db_port}/${var.db_name}?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul"
 }
 
 # Secret 본체 (주의: 이미 AWS에 존재하는 Secret이면 반드시 terraform import로 먼저 state에 넣고 apply 하세요)

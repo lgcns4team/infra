@@ -10,6 +10,9 @@ resource "aws_wafv2_web_acl" "cloudfront" {
     allow {}
   }
 
+  ########################
+  # 1. HTTP Flood 방어 (IP 기준 Rate Limit)
+  ########################
   rule {
     name     = "RateLimitHttpFlood"
     priority = 0
@@ -32,8 +35,11 @@ resource "aws_wafv2_web_acl" "cloudfront" {
     }
   }
 
+  ########################
+  # 2. OWASP Top 10 + XSS + 기본 공격 방어
+  ########################
   rule {
-    name     = "AWS-AWSManagedRulesCrossSiteScriptingRuleSet"
+    name     = "AWS-AWSManagedRulesCommonRuleSet"
     priority = 1
 
     override_action {
@@ -42,14 +48,14 @@ resource "aws_wafv2_web_acl" "cloudfront" {
 
     statement {
       managed_rule_group_statement {
-        name        = "AWSManagedRulesCrossSiteScriptingRuleSet"
+        name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
       }
     }
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "AWSManagedRulesCrossSiteScriptingRuleSet"
+      metric_name                = "AWSManagedRulesCommonRuleSet"
       sampled_requests_enabled   = true
     }
   }

@@ -80,9 +80,73 @@ resource "aws_wafv2_web_acl" "alb" {
     allow {}
   }
 
+  # Jenkins login endpoint 예외 처리 (SQLi 오탐 회피)
+  rule {
+    name     = "AllowJenkinsLoginPaths"
+    priority = 0
+
+    action {
+      allow {}
+    }
+
+    statement {
+      or_statement {
+        statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "EXACTLY"
+            search_string         = "/login"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+
+        statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "EXACTLY"
+            search_string         = "/j_spring_security_check"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+
+        # !초기 설정/플러그인 설치 시 필요할 수 있음
+        statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "STARTS_WITH"
+            search_string         = "/setupWizard"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "AllowJenkinsLoginPaths"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  # 기존 룰은 priority를 1, 2로 밀어줌
   rule {
     name     = "AWS-AWSManagedRulesSQLiRuleSet"
-    priority = 0
+    priority = 1
 
     override_action {
       none {}
@@ -104,7 +168,7 @@ resource "aws_wafv2_web_acl" "alb" {
 
   rule {
     name     = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
-    priority = 1
+    priority = 2
 
     override_action {
       none {}
@@ -132,6 +196,7 @@ resource "aws_wafv2_web_acl" "alb" {
 
   tags = local.common_tags
 }
+
 
 ########################
 # WAF Associations

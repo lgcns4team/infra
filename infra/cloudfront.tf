@@ -55,6 +55,8 @@ resource "aws_acm_certificate_validation" "frontend" {
   provider                = aws.use1
   certificate_arn         = aws_acm_certificate.frontend.arn
   validation_record_fqdns = [for r in aws_route53_record.frontend_acm_validation : r.fqdn]
+
+  depends_on = [aws_route53_record.frontend_acm_validation]
 }
 
 resource "aws_route53_record" "admin_frontend_acm_validation" {
@@ -80,6 +82,8 @@ resource "aws_acm_certificate_validation" "admin_frontend" {
   provider                = aws.use1
   certificate_arn         = aws_acm_certificate.admin_frontend.arn
   validation_record_fqdns = [for r in aws_route53_record.admin_frontend_acm_validation : r.fqdn]
+
+  depends_on = [aws_route53_record.admin_frontend_acm_validation]
 }
 
 ########################
@@ -200,7 +204,6 @@ resource "aws_cloudfront_distribution" "admin_frontend" {
 
   tags = local.common_tags
 }
-
 
 ########################
 # S3 Bucket Policy: CloudFront(OAC)만 읽기 허용

@@ -33,13 +33,16 @@ resource "aws_route53_record" "alb_acm_validation" {
   ttl     = 60
   records = [each.value.record]
 
-  # 이미 레코드가 있을 때 충돌 방지(중요)
+  # 이미 레코드가 있을 때 충돌 방지
   allow_overwrite = true
 }
 
 resource "aws_acm_certificate_validation" "alb" {
   certificate_arn         = aws_acm_certificate.alb.arn
   validation_record_fqdns = [for r in aws_route53_record.alb_acm_validation : r.fqdn]
+
+  # 레코드 생성 완료를 확실히 보장
+  depends_on = [aws_route53_record.alb_acm_validation]
 }
 
 ########################
@@ -63,7 +66,7 @@ resource "aws_lb_listener" "http" {
 }
 
 ########################
-# ALB Listener: HTTPS(443) (필수)
+# ALB Listener: HTTPS(443)
 ########################
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.this.arn
@@ -72,7 +75,6 @@ resource "aws_lb_listener" "https" {
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
   certificate_arn   = aws_acm_certificate_validation.alb.certificate_arn
 
-  # 기본은 API로
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.api.arn
@@ -82,7 +84,6 @@ resource "aws_lb_listener" "https" {
 ########################
 # Listener Rules (Host header)
 ########################
-
 resource "aws_lb_listener_rule" "api" {
   listener_arn = aws_lb_listener.https.arn
   priority     = 10
@@ -129,4 +130,3 @@ resource "aws_lb_listener_rule" "grafana" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.grafana.arn
   }
-}

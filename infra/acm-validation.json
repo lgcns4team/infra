@@ -1,0 +1,71 @@
+{
+  "Comment": "ACM DNS validation records",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_2bde4e4cffb410ca7f388ba0b2c952f2.bfree-kiosk.com.",
+        "Type": "CNAME",
+        "TTL": 60,
+        "ResourceRecords": [
+          { "Value": "_45f8ece3807784aaf382bbfab97456f9.jkddzztszm.acm-validations.aws." }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_77b38f30cf72dca7dae2ae5f0f0a469a.grafana.bfree-kiosk.com.",
+        "Type": "CNAME",
+        "TTL": 60,
+        "ResourceRecords": [
+          { "Value": "_9e208a431df03451e9ba1066224618f9.jkddzztszm.acm-validations.aws." }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_e2b2dfd90c46814f0b7b217ac0742aa4.jenkins.bfree-kiosk.com.",
+        "Type": "CNAME",
+        "TTL": 60,
+        "ResourceRecords": [
+          { "Value": "_c07bda43ff805d8bcd2a4f76670f0469.jkddzztszm.acm-validations.aws." }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_cf45fa4f9660cb30c8226c3e0fb4e666.api.bfree-kiosk.com.",
+        "Type": "CNAME",
+        "TTL": 60,
+        "ResourceRecords": [
+          { "Value": "_8c64d8596452dfb685b0b22196f6d85d.jkddzztszm.acm-validations.aws." }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_e17f9522b1b3a49cc735716af4d01981.www.bfree-kiosk.com.",
+        "Type": "CNAME",
+        "TTL": 60,
+        "ResourceRecords": [
+          { "Value": "_eed5f05dc4fb35354764de5f2bad0f7a.jkddzztszm.acm-validations.aws." }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_6c2e9a5f578f02248984ab1eec49aa92.admin.bfree-kiosk.com.",
+        "Type": "CNAME",
+        "TTL": 60,
+        "ResourceRecords": [
+          { "Value": "_d3a86e4f4f24e24ff790bae97a7c506e.jkddzztszm.acm-validations.aws." }
+        ]
+      }
+    }
+  ]
+}

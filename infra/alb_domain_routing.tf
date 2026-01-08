@@ -2,11 +2,10 @@
 # ACM for ALB (Seoul, ap-northeast-2)
 ########################
 resource "aws_acm_certificate" "alb" {
-  domain_name       = var.root_domain
+  domain_name       = "${var.api_subdomain}.${var.root_domain}"
   validation_method = "DNS"
 
   subject_alternative_names = [
-    "${var.api_subdomain}.${var.root_domain}",
     "${var.jenkins_subdomain}.${var.root_domain}",
     "${var.grafana_subdomain}.${var.root_domain}",
   ]
@@ -131,4 +130,3 @@ resource "aws_lb_listener_rule" "grafana" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.grafana.arn
   }
-}

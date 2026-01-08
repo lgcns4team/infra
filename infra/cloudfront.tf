@@ -86,6 +86,7 @@ resource "aws_acm_certificate_validation" "admin_frontend" {
 # CloudFront OAC
 ########################
 resource "aws_cloudfront_origin_access_control" "frontend" {
+  provider                          = aws.use1
   name                              = "${local.name_prefix}-oac-frontend"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
@@ -93,6 +94,7 @@ resource "aws_cloudfront_origin_access_control" "frontend" {
 }
 
 resource "aws_cloudfront_origin_access_control" "admin_frontend" {
+  provider                          = aws.use1
   name                              = "${local.name_prefix}-oac-admin-frontend"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
@@ -103,6 +105,7 @@ resource "aws_cloudfront_origin_access_control" "admin_frontend" {
 # CloudFront Distribution
 ########################
 resource "aws_cloudfront_distribution" "frontend" {
+  provider            = aws.use1
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
@@ -153,6 +156,7 @@ resource "aws_cloudfront_distribution" "frontend" {
 }
 
 resource "aws_cloudfront_distribution" "admin_frontend" {
+  provider            = aws.use1
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"

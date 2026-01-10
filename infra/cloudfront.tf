@@ -146,6 +146,12 @@ resource "aws_cloudfront_distribution" "frontend" {
     response_page_path = "/index.html"
   }
 
+    custom_error_response {
+    error_code         = 403
+    response_code      = 200
+    response_page_path = "/index.html"
+  }
+
   restrictions {
     geo_restriction { restriction_type = "none" }
   }
@@ -192,6 +198,12 @@ resource "aws_cloudfront_distribution" "admin_frontend" {
 
   custom_error_response {
     error_code         = 404
+    response_code      = 200
+    response_page_path = "/index.html"
+  }
+
+    custom_error_response {
+    error_code         = 403
     response_code      = 200
     response_page_path = "/index.html"
   }

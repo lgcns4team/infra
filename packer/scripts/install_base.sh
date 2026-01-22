@@ -4,6 +4,10 @@ set -eux # 에러 발생 시 즉시 중단 및 실행된 명령 출력. 실행�
 echo "--- User Data script started (Instance type: t2.micro) ---"
 echo "Starting package update and utility installation..."
 
+# RDS 서버 시간대는 정상, EC2 Ubunt 서버 시간대는 UTC > Asia/Seoul 문제 해결
+sudo timedatectl set-timezone Asia/Seoul
+sudo timedatectl set-ntp true
+
 # 1. 패키지 목록 업데이트 및 필요한 유틸리티 설치
 #    sudo는 User Data 스크립트가 기본적으로 root 권한으로 실행되므로 apt-get에 필수는 아니지만, 명시적 사용.
 #    apt-get update 실패 시 1회 재시도 (t2.micro와 같은 저사양 인스턴스에서 간혹 발생)
